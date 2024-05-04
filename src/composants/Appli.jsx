@@ -1,10 +1,21 @@
 import './Appli.scss';
+import Header from './Header';
+import Footer from './Footer';
+import SectionDesComics from './SectionDesComics';
+import FlechesPourChangerLesComics from './FlechesPourChangerLesComics';
+import SectionDesLikesDeLutilisateur from './SectionDesLikesDeLutilisateur';
+import SectionDesCommentaires from './SectionDesCommentaires';
 
 function Appli() {
 
   return (
     <div className="Appli">
-      Gabrit React/Vite du cours 582-4PA
+      <Header/>
+      <SectionDesComics/>
+      <SectionDesLikesDeLutilisateur/>
+      <FlechesPourChangerLesComics/>
+      <SectionDesCommentaires/>
+      <Footer/>
     </div>
   )
 }
