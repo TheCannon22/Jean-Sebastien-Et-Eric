@@ -1,0 +1,58 @@
+.SectionHero {
+  margin: 1rem;
+}
+
+.SectionHero img {
+  width: 80%;
+  height: 100%;
+}
+
+.SectionHero h1 {
+  font-size: clamp(1rem, 0.463rem + 9.667vw, 8.75rem);
+  font-family: "abolition-soft", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.SectionHero h2 {
+  font-size: clamp(1rem, -1.857rem + 7.619vw, 5rem);
+  font-family: "abolition-soft", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.contenantImage {
+  display: flex;
+  justify-content: center;
+  border: 5px solid var(--noir);
+}
+
+.leNumero {
+  font-size: clamp(1rem, 0.563rem + 6.667vw, 3.75rem);
+  font-family: "abolition-soft", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  position: absolute;
+  top: 10%;
+  right: 3rem;
+  @media screen and (max-width: 600px) {
+    top: 11%;
+  }
+}
+
+.sectionTexte {
+  position: absolute;
+  padding-left: 5rem;
+  width: 55%;
+  //   height: 70%;
+  //   background: rgb(0, 0, 0);
+  //   background: linear-gradient(
+  //     90deg,
+  //     rgba(0, 0, 0, 1) 0%,
+  //     rgba(255, 255, 255, 0) 100%
+  //   );
+  @media screen and (max-width: 600px) {
+    padding-left: 3rem;
+    width: 60%;
+  }
+}
