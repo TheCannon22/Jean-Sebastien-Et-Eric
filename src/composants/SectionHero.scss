@@ -14,12 +14,16 @@
   font-style: normal;
 }
 
-.SectionHero h2 {
+.SectionHero .pourPubli {
   font-size: clamp(1rem, -1.857rem + 7.619vw, 5rem);
   font-family: "abolition-soft", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
+
+// .SectionHero .button {
+//   position: absolute;
+// }
 
 .contenantImage {
   display: flex;
@@ -36,7 +40,7 @@
   top: 10%;
   right: 3rem;
   @media screen and (max-width: 600px) {
-    top: 11%;
+    top: 13%;
   }
 }
 
