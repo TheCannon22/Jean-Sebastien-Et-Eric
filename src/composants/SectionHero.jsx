@@ -2,6 +2,27 @@ import { Button } from "@mui/material";
 import "./SectionHero.scss";
 import React from "react";
 
+// Pour les couleurs, ceci est encore en phase test!
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { yellow } from "@mui/material/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: yellow[200],
+      contrastText: "#000",
+    },
+    secondary: {
+      main: "#000",
+      contrastText: "#fff",
+    },
+    third: {
+      main: "#fff",
+      contrastText: "#000",
+    },
+  },
+});
+
 function SectionHero() {
   return (
     <div className="SectionHero">
@@ -13,9 +34,11 @@ function SectionHero() {
       </div>
       <h2 className="leNumero">#1</h2>
       {/* <h2 className="pourPubli">Voir les publications →</h2> */}
-      <Button variant="contained" color="info">
-        Voir les publications →
-      </Button>
+      <ThemeProvider theme={theme}>
+        <Button variant="contained" color="secondary">
+          Voir les publications →
+        </Button>
+      </ThemeProvider>
     </div>
   );
 }
