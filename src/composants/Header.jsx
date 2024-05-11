@@ -2,6 +2,8 @@ import "./Header.scss";
 import React from "react";
 import "./Header";
 import Avatar from "@mui/material/Avatar";
+import { connexion } from "../code/utilisateur-modele";
+import { deconnexion } from "../code/utilisateur-modele";
 
 function Header() {
   return (
@@ -12,8 +14,16 @@ function Header() {
         width={160}
         height={70}
       />
-      {/* <h1>TP2 - React</h1> */}
-      <Avatar className="avatar" />
+      
+      <div className="connexion-complete">
+        <div className="btn-google" onClick={connexion} >
+          <img src="" alt="" />
+          Connexion avec Google
+        
+        </div>
+        <Avatar className="avatar" />
+        <button onClick={deconnexion}>Déconnexion</button>
+      </div>
     </div>
   );
 }
