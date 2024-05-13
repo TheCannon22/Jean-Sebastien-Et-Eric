@@ -36,6 +36,13 @@
   }
 }
 
+.Footer svg {
+  width: 48px;
+  height: 48px;
+
+  color: #000000;
+}
+
 .Footer img {
   align-self: start;
 }
@@ -50,4 +57,10 @@
   text-align: left;
   padding-right: 5%;
   width: 50%;
+}
+
+.deuxiemeColonne p,
+.troisiemeColonne p {
+  display: flex;
+  align-items: center;
 }
