@@ -28,17 +28,21 @@ function SectionHero() {
     <div className="SectionHero">
       <div className="sectionTexte">
         <h1>JEAN-SÉBASTIEN ET ÉRIC</h1>
+        <ThemeProvider theme={theme}>
+          <Button
+            className="publications"
+            variant="contained"
+            color="secondary"
+          >
+            Voir les publications →
+          </Button>
+        </ThemeProvider>
       </div>
       <div className="contenantImage">
         <img src="../src/images/hero-jean-seb-eric.png" alt="seb_et_eric" />
       </div>
       <h2 className="leNumero">#1</h2>
       {/* <h2 className="pourPubli">Voir les publications →</h2> */}
-      <ThemeProvider theme={theme}>
-        <Button variant="contained" color="secondary">
-          Voir les publications →
-        </Button>
-      </ThemeProvider>
     </div>
   );
 }

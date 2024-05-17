@@ -1,0 +1,39 @@
+.Toast {
+  position: fixed;
+  display: flex;
+  align-items: center;
+
+  background-color: var(--blanc);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: solid var(--oeuf) 2px;
+  border-radius: 10px;
+
+  padding: 0.5%;
+  left: 45%;
+  z-index: 100;
+
+  //   transform: translateY(-50px);
+  //   transition: animationToast 5s;
+  animation-name: animationToast;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes animationToast {
+  0% {
+    transform: translateY(-120px);
+  }
+  10% {
+    transform: translateY(0px);
+  }
+
+  30% {
+    transform: translateY(0px);
+  }
+  40% {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(-120px);
+  }
+}
