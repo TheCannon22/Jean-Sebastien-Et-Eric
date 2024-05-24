@@ -1,11 +1,17 @@
 import "./Header.scss";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Header";
 import Avatar from "@mui/material/Avatar";
 import { connexion } from "../code/utilisateur-modele";
-import { deconnexion } from "../code/utilisateur-modele";
+import { deconnexion, observerEtatConnexion } from "../code/utilisateur-modele";
 
 function Header() {
+  const [utilisateur, setUtilisateur] = useState(null);
+
+  useEffect(() => {
+    observerEtatConnexion(setUtilisateur);
+  }, []);
+
   return (
     <div className="Header">
       <img
@@ -14,15 +20,24 @@ function Header() {
         width={160}
         height={70}
       />
-      
+
       <div className="connexion-complete">
-        <div className="btn-google" onClick={connexion} >
-          <img src="" alt="" />
-          Connexion avec Google
-        
-        </div>
-        <Avatar className="avatar" />
-        <button onClick={deconnexion}>Déconnexion</button>
+        {!utilisateur ? (
+          <div className="btn-google" onClick={connexion}>
+            <img src="" alt="" />
+            Connexion avec Google
+          </div>
+        ) : (
+          <></>
+        )}
+        {utilisateur ? (
+          <>
+            <Avatar className="avatar" src={utilisateur.photoURL} />
+            <button onClick={deconnexion}>Déconnexion</button>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
