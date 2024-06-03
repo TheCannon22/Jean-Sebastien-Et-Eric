@@ -35,9 +35,7 @@ export async function creer(idUtil, infoDossier) {
  */
 
 export async function lireTout(idUtil) {
-  const lesDossiers = await getDocs(
-    query(collection(bd, collectionUtilisateurs, idUtil, collectionBandes))
-  );
+  const lesDossiers = await getDocs(query(collection(bd, collectionBandes)));
   console.log(
     "Snapshot contenant les documents dans Firestore: ",
     lesDossiers.docs

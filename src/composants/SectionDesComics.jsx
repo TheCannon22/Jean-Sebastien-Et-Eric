@@ -1,29 +1,30 @@
 import "./SectionDesComics.scss";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { lireTout } from "../code/dossier-modele";
 
-export default function SectionDesComics({ setComics }) {
+export default function SectionDesComics() {
+  const [tousLesComics, setTousLesComics] = useState([]);
+
   useEffect(() => {
     async function chercherComics() {
       try {
-        // Chercher toutes les tâches dans Firestore
-        const tousLesComics = await lireTout("userID"); // Pass the user ID here
-        // Raffraîchir l'état React des tâches
-        setComics(tousLesComics);
-        console.log("Data fetched successfully: ", tousLesComics);
+        const data = await lireTout("idUtil"); // Pass the user ID here
+        setTousLesComics(data);
+        console.log("Data fetched successfully: ", data);
       } catch (error) {
         console.log("Error fetching data: ", error);
       }
     }
 
     chercherComics();
-    console.log(chercherComics);
-  }, [setComics]);
+  }, []);
 
   return (
     <div className="SectionDesComics">
       <h1>Les comics</h1>
-      <img src="/admin/jse-3.png" alt="" />
+      {tousLesComics.map((comic) => (
+        <img src={comic.url} alt={comic.title} key={comic.id} />
+      ))}
     </div>
   );
 }
