@@ -16,7 +16,6 @@ function Appli() {
       <SectionHero />
       <SectionDesComics />
       <SectionDesLikesDeLutilisateur />
-      <FlechesPourChangerLesComics />
       <SectionDesCommentaires />
       <Footer />
     </div>
