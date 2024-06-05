@@ -14,7 +14,7 @@ function SectionDesCommentaires({ idBande }) {
       const commentaire = {
         texte: nouveauCommentaire,
         nomUtil: "Nom Utilisateur",
-        idUtil: "idUtilisateur", 
+        idUtil: "idUtilisateur",
       };
       await ajouterCommentaire(idBande, commentaire);
       setNouveauCommentaire("");
@@ -47,7 +47,7 @@ function SectionDesCommentaires({ idBande }) {
 
   return (
     <div className="SectionDesCommentaires">
-       <h2>Commentaires</h2>
+      <h2>Commentaires</h2>
       <form onSubmit={handleSubmit}>
         <textarea
           value={nouveauCommentaire}
