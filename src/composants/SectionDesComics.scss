@@ -7,3 +7,15 @@
   color: var(--oeuf);
   background-color: var(--oeufFonce);
 }
+
+.enRange {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-evenly;
+}
+
+.NavigationBande {
+  display: flex;
+  align-self: center;
+}
