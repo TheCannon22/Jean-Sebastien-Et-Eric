@@ -5,6 +5,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export default function SectionDesComics() {
   const [toutesLesBandes, setToutesLesBandes] = useState([]);
@@ -69,9 +70,9 @@ export default function SectionDesComics() {
         <img src={bandeQuotidienne.url} alt={bandeQuotidienne.title} />
         <h2>{bandeQuotidienne.title}</h2>
         <p>{bandeQuotidienne.description}</p>
-        <p>Likes: {bandeQuotidienne.likes}</p>
+        <p><FavoriteIcon fontSize='large'/>: {bandeQuotidienne.aime ? bandeQuotidienne.aime.length : 0}</p>
         <p>Comments: {bandeQuotidienne.comments}</p>
-        <p>Date: {bandeQuotidienne.date}</p>
+        <p>Date: {bandeQuotidienne.dpub}</p>
       </div>
 
       <div className="NavigationBande">
