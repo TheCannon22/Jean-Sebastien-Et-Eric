@@ -4,6 +4,7 @@ import "./Header";
 import Avatar from "@mui/material/Avatar";
 import { connexion } from "../code/utilisateur-modele";
 import { deconnexion, observerEtatConnexion } from "../code/utilisateur-modele";
+import logo from '../images/amoi_logo.png';
 
 function Header() {
   const [utilisateur, setUtilisateur] = useState(null);
@@ -14,12 +15,7 @@ function Header() {
 
   return (
     <div className="Header">
-      <img
-        src="../src/images/amoi_logo.png"
-        alt="logo_a_moi"
-        width={160}
-        height={70}
-      />
+      <img src={logo} alt="logo_a_moi" width={160} height={70} />
 
       <div className="connexion-complete">
         {!utilisateur ? (

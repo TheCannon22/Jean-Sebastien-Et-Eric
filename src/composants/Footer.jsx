@@ -1,6 +1,5 @@
 import "./Footer.scss";
 import React from "react";
-import "./Footer.scss";
 
 function Footer() {
   return (
@@ -90,6 +89,7 @@ function Footer() {
             <svg
               className="w-6 h-6 text-gray-800 dark:text-white"
               aria-hidden="true"
+              aria-label="Email icon"
               xmlns="http://www.w3.org/2000/svg"
               width="52"
               height="52"

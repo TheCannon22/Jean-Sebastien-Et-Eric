@@ -36,7 +36,7 @@ export default function SectionDesCommentaires({ idBande }) {
       await addDoc(collection(bd, `${collectionBandes}/${idBande}/commentaires`), {
         ...commentaire,
         timestamp: new Date(),
-        votes: {} // Initialiser les votes à un objet vide
+        votes: {}
       });
       console.log("Commentaire ajouté avec succès !");
     } catch (error) {
