@@ -1,17 +1,18 @@
 import "./SectionDesComics.scss";
 import React, { useEffect, useState } from "react";
-import { lireTout } from "../code/dossier-modele";
+import { lireTout, aimerBande, desaimBande } from "../code/dossier-modele";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import SectionDesCommentaires from "./SectionDesCommentaires";
+import { observerEtatConnexion } from "../code/utilisateur-modele";
 
 export default function SectionDesComics() {
   const [toutesLesBandes, setToutesLesBandes] = useState([]);
   const [indexBandeQuotidienne, setIndexBandeQuotidienne] = useState(0);
+  const [utilisateur, setUtilisateur] = useState(null);
 
   useEffect(() => {
     async function chargerBandes() {
       try {
-        const bandes = await lireTout("idUtil");
+        const bandes = await lireTout();
         bandes.sort((a, b) => b.dpub - a.dpub);
         setToutesLesBandes(bandes);
       } catch (error) {
@@ -20,6 +21,7 @@ export default function SectionDesComics() {
     }
 
     chargerBandes();
+    observerEtatConnexion(setUtilisateur);
   }, []);
 
   function afficherBande(index) {
@@ -54,14 +56,28 @@ export default function SectionDesComics() {
     afficherBande(toutesLesBandes.length - 1);
   }
 
+  async function gererAimer() {
+    const bande = toutesLesBandes[indexBandeQuotidienne];
+    if (bande.aime && bande.aime.includes(utilisateur.uid)) {
+      await desaimBande(bande.id, utilisateur.uid);
+      bande.aime = bande.aime.filter((id) => id !== utilisateur.uid);
+    } else {
+      await aimerBande(bande.id, utilisateur.uid);
+      if (bande.aime) {
+        bande.aime.push(utilisateur.uid);
+      } else {
+        bande.aime = [utilisateur.uid];
+      }
+    }
+    setToutesLesBandes([...toutesLesBandes]);
+  }
+
   if (toutesLesBandes.length === 0) {
     return <div>Loading...</div>;
   }
 
-  console.log("indexBandeQuotidienne:", indexBandeQuotidienne);
-  console.log("toutesLesBandes:", toutesLesBandes);
-
   const bandeQuotidienne = toutesLesBandes[indexBandeQuotidienne];
+  const aimeParUtilisateur = bandeQuotidienne.aime && bandeQuotidienne.aime.includes(utilisateur?.uid);
 
   return (
     <div className="SectionDesComics">
@@ -72,7 +88,11 @@ export default function SectionDesComics() {
         <p>{bandeQuotidienne.description}</p>
         <div className="enRange">
           <p>
-            <FavoriteIcon fontSize="large" />{" "}
+            <FavoriteIcon
+              fontSize="large"
+              style={{ color: aimeParUtilisateur ? "red" : "grey" }}
+              onClick={gererAimer}
+            />{" "}
             {bandeQuotidienne.aime ? bandeQuotidienne.aime.length : 0}
           </p>
           <div className="NavigationBande">
