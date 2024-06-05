@@ -9,11 +9,13 @@ import { doc, setDoc } from "firebase/firestore";
 
 export function connexion() {
   signInWithPopup(firebaseAuth, googleProvider);
+  // Toast.style.animationPlayState = "running";
 }
 
 export function deconnexion() {
   signOut(firebaseAuth);
 }
+console.log(firebaseAuth);
 
 export function observerEtatConnexion(mutateurUtilisateur) {
   onAuthStateChanged(firebaseAuth, (u) => {

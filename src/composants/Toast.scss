@@ -15,8 +15,8 @@
   //   transform: translateY(-50px);
   //   transition: animationToast 5s;
   animation-name: animationToast;
-  animation-duration: 20s;
-  animation-iteration-count: infinite;
+  animation-duration: 10s;
+  animation-play-state: paused;
 }
 
 @keyframes animationToast {
@@ -35,5 +35,6 @@
   }
   to {
     transform: translateY(-120px);
+    animation-play-state: paused;
   }
 }
