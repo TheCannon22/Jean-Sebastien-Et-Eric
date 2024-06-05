@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { lireTout, aimerBande, desaimBande } from "../code/dossier-modele";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { observerEtatConnexion } from "../code/utilisateur-modele";
+import SectionDesCommentaires from "./SectionDesCommentaires";
 
 export default function SectionDesComics() {
   const [toutesLesBandes, setToutesLesBandes] = useState([]);
@@ -103,7 +104,7 @@ export default function SectionDesComics() {
           </div>
           <p>Date: {bandeQuotidienne.dpub}</p>
         </div>
-        <div></div>
+        <SectionDesCommentaires idBande={bandeQuotidienne.id} />
       </div>
     </div>
   );

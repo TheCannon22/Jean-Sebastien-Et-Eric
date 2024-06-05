@@ -45,3 +45,9 @@ export async function desaimBande(idBande, idUtil) {
     aime: arrayRemove(idUtil),
   });
 }
+
+export async function lireCommentaires(idBande) {
+  const refCommentaires = collection(bd, collectionBandes, idBande, 'commentaires');
+  const snapshot = await getDocs(query(refCommentaires));
+  return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+}
