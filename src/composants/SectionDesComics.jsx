@@ -1,6 +1,7 @@
 import "./SectionDesComics.scss";
 import React, { useEffect, useState } from "react";
-import { lireTout, aimerBande, desaimBande } from "../code/dossier-modele";
+import { onSnapshot, collection, doc, query, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { bd, collectionBandes } from "../code/init";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { observerEtatConnexion } from "../code/utilisateur-modele";
 import SectionDesCommentaires from "./SectionDesCommentaires";
@@ -11,18 +12,15 @@ export default function SectionDesComics() {
   const [utilisateur, setUtilisateur] = useState(null);
 
   useEffect(() => {
-    async function chargerBandes() {
-      try {
-        const bandes = await lireTout();
-        bandes.sort((a, b) => b.dpub - a.dpub);
-        setToutesLesBandes(bandes);
-      } catch (error) {
-        console.log("Erreur lors du chargement des bandes:", error);
-      }
-    }
+    const unsubscribe = onSnapshot(query(collection(bd, collectionBandes)), (snapshot) => {
+      const bandes = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      bandes.sort((a, b) => b.dpub - a.dpub);
+      setToutesLesBandes(bandes);
+    });
 
-    chargerBandes();
     observerEtatConnexion(setUtilisateur);
+
+    return () => unsubscribe();
   }, []);
 
   function afficherBande(index) {
@@ -59,18 +57,17 @@ export default function SectionDesComics() {
 
   async function gererAimer() {
     const bande = toutesLesBandes[indexBandeQuotidienne];
+    const refBande = doc(bd, collectionBandes, bande.id);
+
     if (bande.aime && bande.aime.includes(utilisateur.uid)) {
-      await desaimBande(bande.id, utilisateur.uid);
-      bande.aime = bande.aime.filter((id) => id !== utilisateur.uid);
+      await updateDoc(refBande, {
+        aime: arrayRemove(utilisateur.uid)
+      });
     } else {
-      await aimerBande(bande.id, utilisateur.uid);
-      if (bande.aime) {
-        bande.aime.push(utilisateur.uid);
-      } else {
-        bande.aime = [utilisateur.uid];
-      }
+      await updateDoc(refBande, {
+        aime: arrayUnion(utilisateur.uid)
+      });
     }
-    setToutesLesBandes([...toutesLesBandes]);
   }
 
   if (toutesLesBandes.length === 0) {
