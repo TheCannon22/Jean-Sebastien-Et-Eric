@@ -1,11 +1,8 @@
 import "./SectionDesComics.scss";
 import React, { useEffect, useState } from "react";
 import { lireTout } from "../code/dossier-modele";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import LastPageIcon from "@mui/icons-material/LastPage";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import SectionDesCommentaires from "./SectionDesCommentaires";
 
 export default function SectionDesComics() {
   const [toutesLesBandes, setToutesLesBandes] = useState([]);
@@ -61,6 +58,9 @@ export default function SectionDesComics() {
     return <div>Loading...</div>;
   }
 
+  console.log("indexBandeQuotidienne:", indexBandeQuotidienne);
+  console.log("toutesLesBandes:", toutesLesBandes);
+
   const bandeQuotidienne = toutesLesBandes[indexBandeQuotidienne];
 
   return (
@@ -83,6 +83,7 @@ export default function SectionDesComics() {
           </div>
           <p>Date: {bandeQuotidienne.dpub}</p>
         </div>
+        <div></div>
       </div>
     </div>
   );
