@@ -7,7 +7,7 @@ import {
 import "./Toast.scss";
 
 function Toast() {
-  const [animationPlayState, setAnimationPlayState] = useState("paused");
+  const [animationPlayState, setAnimationPlayState] = useState("running");
   const [utilisateur, setUtilisateur] = useState(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function Toast() {
         width={100}
         height={72}
       />
-      <p>Vous êtes connecté.</p>
+      <p>Veuillez vous connecter.</p>
     </div>
   );
 }

@@ -1,3 +1,14 @@
-h3 {
+.SectionDesCommentaires {
   padding: 0 1rem;
+}
+
+form {
+  display: flex;
+  align-items: center;
+}
+
+textarea {
+  margin-right: 2%;
+  padding-right: 5%;
+  padding-bottom: 2%;
 }
