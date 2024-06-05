@@ -7,72 +7,78 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 
 export default function SectionDesComics() {
-  const [tousLesComics, setTousLesComics] = useState([]);
-  const [comicSelectionne, setComicSelectionne] = useState(0);
+  const [toutesLesBandes, setToutesLesBandes] = useState([]);
+  const [indexBandeQuotidienne, setIndexBandeQuotidienne] = useState(0);
 
   useEffect(() => {
-    async function chercherComics() {
+    async function chargerBandes() {
       try {
-        const data = await lireTout("idUtil"); // Pass the user ID here
-        setTousLesComics(data);
-        console.log("Data fetched successfully: ", data);
+        const bandes = await lireTout("idUtil");
+        bandes.sort((a, b) => b.dpub - a.dpub);
+        setToutesLesBandes(bandes);
       } catch (error) {
-        console.log("Error fetching data: ", error);
+        console.log("Erreur lors du chargement des bandes:", error);
       }
     }
 
-    chercherComics();
+    chargerBandes();
   }, []);
 
-  function afficherDetailsComic(comicIndex) {
-    setComicSelectionne(comicIndex);
+  function afficherBande(index) {
+    setIndexBandeQuotidienne(index);
   }
 
-  function afficherComicSuivant() {
-    setComicSelectionne((comicSelectionne + 1) % tousLesComics.length);
+  function afficherBandePrecedente() {
+    setIndexBandeQuotidienne(prevIndex => {
+      if (prevIndex > 0) {
+        return prevIndex - 1;
+      } else {
+        return prevIndex;
+      }
+    });
+  }
+  
+  function afficherBandeSuivante() {
+    setIndexBandeQuotidienne(prevIndex => {
+      if (prevIndex < toutesLesBandes.length - 1) {
+        return prevIndex + 1;
+      } else {
+        return prevIndex;
+      }
+    });
   }
 
-  function afficherComicPrecedent() {
-    setComicSelectionne(
-      (comicSelectionne - 1 + tousLesComics.length) % tousLesComics.length
-    );
+  function afficherPremiereBande() {
+    afficherBande(0);
   }
 
-  if (tousLesComics.length === 0) {
+  function afficherDerniereBande() {
+    afficherBande(toutesLesBandes.length - 1);
+  }
+
+  if (toutesLesBandes.length === 0) {
     return <div>Loading...</div>;
   }
 
-  const comicSelectionneData = tousLesComics[comicSelectionne];
-
-  if (!comicSelectionneData) {
-    return <div>Error: Invalid comic selectionne index.</div>;
-  }
+  const bandeQuotidienne = toutesLesBandes[indexBandeQuotidienne];
 
   return (
     <div className="SectionDesComics">
       <h1>Les comics</h1>
       <div className="DetailsComic">
-        <img src={comicSelectionneData.url} alt={comicSelectionneData.title} />
-        <h2>{comicSelectionneData.title}</h2>
-        <p>{comicSelectionneData.description}</p>
-        <p>Likes: {comicSelectionneData.likes}</p>
-        <p>Comments: {comicSelectionneData.comments}</p>
-        <p>Date: {comicSelectionneData.date}</p>
+        <img src={bandeQuotidienne.url} alt={bandeQuotidienne.title} />
+        <h2>{bandeQuotidienne.title}</h2>
+        <p>{bandeQuotidienne.description}</p>
+        <p>Likes: {bandeQuotidienne.likes}</p>
+        <p>Comments: {bandeQuotidienne.comments}</p>
+        <p>Date: {bandeQuotidienne.date}</p>
+      </div>
 
-        <div className="FlechesPourChangerLesComics">
-          <FirstPageIcon className="styleFleche1" fontSize="large" />
-          <ArrowBackIosNewIcon
-            className="styleFleche2"
-            fontSize="large"
-            onClick={afficherComicPrecedent}
-          />
-          <ArrowForwardIosIcon
-            className="styleFleche2"
-            fontSize="large"
-            onClick={afficherComicSuivant}
-          />
-          <LastPageIcon className="styleFleche1" fontSize="large" />
-        </div>
+      <div className="NavigationBande">
+        <button onClick={afficherPremiereBande}>Première</button>
+        <button onClick={afficherBandePrecedente}>Précédente</button>
+        <button onClick={afficherBandeSuivante}>Suivante</button>
+        <button onClick={afficherDerniereBande}>Dernière</button>
       </div>
     </div>
   );

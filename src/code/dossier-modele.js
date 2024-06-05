@@ -76,4 +76,3 @@ export async function modifier(idUtil, idBandes, infoDossier) {
   await updateDoc(refDossier, infoDossier);
 }
 
-//SectionDesComics.jsx
