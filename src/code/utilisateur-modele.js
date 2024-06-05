@@ -8,14 +8,30 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 
 export function connexion() {
-  signInWithPopup(firebaseAuth, googleProvider);
-  // Toast.style.animationPlayState = "running";
+  signInWithPopup(firebaseAuth, googleProvider)
+    .then((result) => {
+      // La connexion réussit, vous pouvez traiter le résultat ici
+      // Par exemple, rediriger l'utilisateur vers une autre page
+      console.log("Connexion réussie :", result);
+    })
+    .catch((error) => {
+      // La connexion a échoué, gérer l'erreur ici
+      console.error("Erreur de connexion :", error);
+    });
 }
 
 export function deconnexion() {
-  signOut(firebaseAuth);
+  signOut(firebaseAuth)
+    .then(() => {
+      // Déconnexion réussie
+      console.log("Déconnexion réussie");
+    })
+    .catch((error) => {
+      // La déconnexion a échoué, gérer l'erreur ici
+      console.error("Erreur de déconnexion :", error);
+    });
 }
-console.log(firebaseAuth);
+
 
 export function observerEtatConnexion(mutateurUtilisateur) {
   onAuthStateChanged(firebaseAuth, (u) => {

@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { lireCommentaires, supprimerCommentaire } from "../code/dossier-modele";
+import { useState, useEffect } from "react";
+import {
+  onSnapshot,
+  collection,
+  query,
+} from "firebase/firestore";
+import { bd, collectionBandes } from "../code/init";
 import "./SectionDesCommentaires.scss";
 import { Timestamp } from "firebase/firestore";
-import { ajouterCommentaire } from "../code/dossier-modele";
+import { ajouterCommentaire, supprimerCommentaire } from "../code/dossier-modele";
 import { observerEtatConnexion } from "../code/utilisateur-modele";
 
 function SectionDesCommentaires({ idBande }) {
@@ -14,47 +19,35 @@ function SectionDesCommentaires({ idBande }) {
     observerEtatConnexion(setUtilisateur);
   }, []);
 
+  // Fonction pour ajouter un commentaire
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (nouveauCommentaire.trim() !== "") {
       const commentaire = {
         texte: nouveauCommentaire,
         nomUtil: utilisateur.displayName,
-        idUtil: "idUtilisateur",
+        idUtil: utilisateur.uid, // Utiliser l'ID réel de l'utilisateur
       };
       await ajouterCommentaire(idBande, commentaire);
       setNouveauCommentaire("");
     }
   };
 
+  // Fonction pour supprimer un commentaire
   const handleSupprimerCommentaire = async (idCommentaire) => {
     await supprimerCommentaire(idBande, idCommentaire);
   };
 
   useEffect(() => {
-    async function chargerCommentaires() {
-      try {
-        const commentaires = await lireCommentaires(idBande);
-        commentaires.sort((a, b) => {
-          const timestampA =
-            a.timestamp instanceof Timestamp
-              ? a.timestamp
-              : Timestamp.fromDate(new Date(a.timestamp));
-          const timestampB =
-            b.timestamp instanceof Timestamp
-              ? b.timestamp
-              : Timestamp.fromDate(new Date(b.timestamp));
-          return timestampB - timestampA;
-        });
-        setCommentaires(commentaires);
-      } catch (error) {
-        console.log("Erreur lors du chargement des commentaires:", error);
-      }
-    }
+    const unsubscribe = onSnapshot(query(collection(bd, `${collectionBandes}/${idBande}/commentaires`)), (snapshot) => {
+      const newCommentaires = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCommentaires(newCommentaires);
+    });
 
-    if (idBande) {
-      chargerCommentaires();
-    }
+    return () => unsubscribe();
   }, [idBande]);
 
   return (
@@ -72,9 +65,11 @@ function SectionDesCommentaires({ idBande }) {
         <div key={commentaire.id} className="Commentaire">
           <p>
             <strong>{commentaire.nomUtil}</strong>: {commentaire.texte}
-            <button onClick={() => handleSupprimerCommentaire(commentaire.id)}>
-              Supprimer
-            </button>
+            {utilisateur && utilisateur.uid === commentaire.idUtil && (
+              <button onClick={() => handleSupprimerCommentaire(commentaire.id)}>
+                Supprimer
+              </button>
+            )}
           </p>
         </div>
       ))}
