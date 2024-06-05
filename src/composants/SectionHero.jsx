@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import "./SectionHero.scss";
 import React from "react";
+import logo from "../images/hero-jean-seb-eric.png";
 
 // Pour les couleurs, ceci est encore en phase test!
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -39,7 +40,7 @@ function SectionHero() {
         </ThemeProvider>
       </div>
       <div className="contenantImage">
-        <img src="../src/images/hero-jean-seb-eric.png" alt="seb_et_eric" />
+        <img src={logo} alt="seb_et_eric" />
       </div>
       <h2 className="leNumero">#1</h2>
       {/* <h2 className="pourPubli">Voir les publications →</h2> */}

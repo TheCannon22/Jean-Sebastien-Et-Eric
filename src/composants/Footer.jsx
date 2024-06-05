@@ -1,11 +1,12 @@
 import "./Footer.scss";
 import React from "react";
+import logo from '../images/amoi_logo.png';
 
 function Footer() {
   return (
     <div className="Footer">
       <img
-        src="../src/images/amoi_logo.png"
+        src={logo}
         alt="logo_a_moi"
         width={160}
         height={70}

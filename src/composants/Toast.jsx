@@ -5,6 +5,7 @@ import {
   observerEtatConnexion,
 } from "../code/utilisateur-modele";
 import "./Toast.scss";
+import logo from "../images/logo_seul.png";
 
 function Toast() {
   const [animationPlayState, setAnimationPlayState] = useState("running");
@@ -40,7 +41,7 @@ export function Toast2() {
   return (
     <div className="Toast" style={{ animationPlayState }} id="theSecondToast">
       <img
-        src="../src/images/logo_seul.png"
+        src={logo}
         alt="logo_amoi"
         width={100}
         height={72}
