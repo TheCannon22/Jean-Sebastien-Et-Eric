@@ -10,6 +10,7 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import { bd, collectionBandes } from "./init";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 
 export async function creer(idUtil, infoDossier) {
   const refDossier = doc(collection(bd, collectionBandes));
@@ -50,4 +51,20 @@ export async function lireCommentaires(idBande) {
   const refCommentaires = collection(bd, collectionBandes, idBande, 'commentaires');
   const snapshot = await getDocs(query(refCommentaires));
   return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+}
+
+export async function ajouterCommentaire(idBande, commentaire) {
+  try {
+    const commentairesRef = collection(bd, `${collectionBandes}/${idBande}/commentaires`);
+    await addDoc(commentairesRef, {
+      texte: commentaire.texte,
+      nomUtil: commentaire.nomUtil,
+      idUtil: commentaire.idUtil,
+      timestamp: serverTimestamp(),
+      votes: commentaire.votes ? commentaire.votes : {},
+    });
+    console.log("Commentaire ajouté avec succès !");
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du commentaire :", error);
+  }
 }
