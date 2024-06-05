@@ -68,3 +68,12 @@ export async function ajouterCommentaire(idBande, commentaire) {
     console.error("Erreur lors de l'ajout du commentaire :", error);
   }
 }
+
+export async function supprimerCommentaire(idBande, idCommentaire) {
+  try {
+    await deleteDoc(doc(bd, `${collectionBandes}/${idBande}/commentaires/${idCommentaire}`));
+    console.log("Commentaire supprimé avec succès !");
+  } catch (error) {
+    console.error("Erreur lors de la suppression du commentaire :", error);
+  }
+}

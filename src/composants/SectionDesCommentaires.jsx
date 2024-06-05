@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { lireCommentaires } from "../code/dossier-modele";
+import { lireCommentaires, supprimerCommentaire } from "../code/dossier-modele";
 import "./SectionDesCommentaires.scss";
 import { Timestamp } from "firebase/firestore";
 import { ajouterCommentaire } from "../code/dossier-modele";
@@ -13,12 +13,16 @@ function SectionDesCommentaires({ idBande }) {
     if (nouveauCommentaire.trim() !== "") {
       const commentaire = {
         texte: nouveauCommentaire,
-        nomUtil: "Nom Utilisateur", // Remplacer par le nom de l'utilisateur connecté
-        idUtil: "idUtilisateur", // Remplacer par l'identifiant de l'utilisateur connecté
+        nomUtil: "Nom Utilisateur",
+        idUtil: "idUtilisateur", 
       };
       await ajouterCommentaire(idBande, commentaire);
       setNouveauCommentaire("");
     }
+  };
+
+  const handleSupprimerCommentaire = async (idCommentaire) => {
+    await supprimerCommentaire(idBande, idCommentaire);
   };
 
   useEffect(() => {
@@ -55,9 +59,9 @@ function SectionDesCommentaires({ idBande }) {
       {commentaires.map((commentaire) => (
         <div key={commentaire.id} className="Commentaire">
           <p>
-            <strong>{commentaire.nomUtil}</strong> ({new Date(commentaire.timestamp instanceof Timestamp ? commentaire.timestamp.toMillis() : commentaire.timestamp).toLocaleString()})
+            <strong>{commentaire.nomUtil}</strong>: {commentaire.texte}
+            <button onClick={() => handleSupprimerCommentaire(commentaire.id)}>Supprimer</button>
           </p>
-          <p>{commentaire.texte}</p>
         </div>
       ))}
     </div>
