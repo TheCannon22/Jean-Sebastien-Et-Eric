@@ -3,17 +3,23 @@ import { lireCommentaires, supprimerCommentaire } from "../code/dossier-modele";
 import "./SectionDesCommentaires.scss";
 import { Timestamp } from "firebase/firestore";
 import { ajouterCommentaire } from "../code/dossier-modele";
+import { observerEtatConnexion } from "../code/utilisateur-modele";
 
 function SectionDesCommentaires({ idBande }) {
   const [commentaires, setCommentaires] = useState([]);
   const [nouveauCommentaire, setNouveauCommentaire] = useState("");
+  const [utilisateur, setUtilisateur] = useState(null);
+
+  useEffect(() => {
+    observerEtatConnexion(setUtilisateur);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (nouveauCommentaire.trim() !== "") {
       const commentaire = {
         texte: nouveauCommentaire,
-        nomUtil: "Nom Utilisateur",
+        nomUtil: utilisateur.displayName,
         idUtil: "idUtilisateur",
       };
       await ajouterCommentaire(idBande, commentaire);
@@ -30,8 +36,14 @@ function SectionDesCommentaires({ idBande }) {
       try {
         const commentaires = await lireCommentaires(idBande);
         commentaires.sort((a, b) => {
-          const timestampA = a.timestamp instanceof Timestamp ? a.timestamp : Timestamp.fromDate(new Date(a.timestamp));
-          const timestampB = b.timestamp instanceof Timestamp ? b.timestamp : Timestamp.fromDate(new Date(b.timestamp));
+          const timestampA =
+            a.timestamp instanceof Timestamp
+              ? a.timestamp
+              : Timestamp.fromDate(new Date(a.timestamp));
+          const timestampB =
+            b.timestamp instanceof Timestamp
+              ? b.timestamp
+              : Timestamp.fromDate(new Date(b.timestamp));
           return timestampB - timestampA;
         });
         setCommentaires(commentaires);
@@ -60,7 +72,9 @@ function SectionDesCommentaires({ idBande }) {
         <div key={commentaire.id} className="Commentaire">
           <p>
             <strong>{commentaire.nomUtil}</strong>: {commentaire.texte}
-            <button onClick={() => handleSupprimerCommentaire(commentaire.id)}>Supprimer</button>
+            <button onClick={() => handleSupprimerCommentaire(commentaire.id)}>
+              Supprimer
+            </button>
           </p>
         </div>
       ))}
